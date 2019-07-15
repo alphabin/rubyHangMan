@@ -1,16 +1,33 @@
 class Hangman
 
-  attr_reader :word, :count, :guessedTrue,:guessedFalse
+  attr_reader :word, :count, :guessedTrue,:guessedFalse, :isValid
 
   def initialize(word, count)
-    @word = word
-    #this is used for presentation, so the original word is not modified
-    @shadowWord =  Array.new(@word.length, "_")
-    @count = count
+    if(word.length > 0)
+      @word = word.downcase
+      tempCheck = word.split(' ')
+      #this is to check if someone entered multiple words, if so get the first word
+      if (tempCheck.length >1 )
+        @isValid = false
+        #get the first word if entered mutiple
+        @word =  tempCheck[0]
+      else
+        @isValid = true
+      end 
+      
+      #this is used for presentation, so the original word is not modified
+      @shadowWord =  Array.new(@word.length, "_")
+      @count = count
+      @win = false
+      @guessedTrue = []
+      @guessedFalse = []
+   else
     @win = false
-    @guessedTrue = []
-    @guessedFalse = []
-  end 
+    puts "Empty Word Exiting"
+    @count = 0
+   end
+    
+  end
   
   def gameOver?
      @win || @count == 0
@@ -25,6 +42,7 @@ class Hangman
   # otherwise, return the number of times the letter 
   # appears in the word
   def guess(letter)
+      letter = letter.downcase
       #find the guess
       returnValue = @word.count(letter) 
       case returnValue
@@ -57,7 +75,7 @@ class Hangman
   def hint()
       hintIndex =  @shadowWord.index("_");
       @count-=1
-      @word[hintIndex]
+      puts @word[hintIndex]
   end 
   
   # return a string 
@@ -77,7 +95,7 @@ class Hangman
       #remove the trailing spaces as spec
       presentWord.rstrip
   end
- 
+
 end
 
 
