@@ -74,13 +74,15 @@ class Hangman
   # that has not been guessed 
   def hint()
       #Get the first _ position in the shadow word
+      returnValue=""
       hintIndex =  @shadowWord.index("_");
       if(@count > 1)
         #Decrement the count
         @count-=1
         #Return the hind index
-        puts @word[hintIndex]
+        returnValue = @word[hintIndex]
       end
+      returnValue
   end 
   
   # return a string 
